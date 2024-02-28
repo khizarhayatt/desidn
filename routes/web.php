@@ -12,6 +12,7 @@
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\DoctorsController;
 use App\Http\Controllers\PostController;
+use App\Http\Controllers\SellerController;
 use Illuminate\Support\Facades\Auth;
  use Illuminate\Support\Facades\Route;
 /*
@@ -36,6 +37,12 @@ Route::middleware(['guest'])->group(function () {
     Route::get('/login', [LoginController::class, 'login'])->name('admin.login');
     Route::post('/login', [LoginController::class, 'verification'])->name('auth.verification');
 
+    Route::get('/seller/login', [SellerController::class, 'login'])->name('seller.login');
+    Route::post('/seller/login', [SellerController::class, 'verification'])->name('seller.verification');
+
+
+    Route::get('/seller/register', [SellerController::class, 'register'])->name('seller.register');
+    Route::post('/seller/register', [SellerController::class, 'create'])->name('seller.create');
 
     Route::get('/register', [RegisterController::class, 'register'])->name('admin.register');
     Route::post('/register', [RegisterController::class, 'create'])->name('admin.create');
@@ -52,89 +59,23 @@ Route::middleware(['guest'])->group(function () {
 //frontend
  
 Route::get('/', function () {
-    return view('frontend.index'); 
+    return view('frontend.seller.login'); 
 });
 
-Route::get('/service', function () {
-    return view('frontend.service'); 
+Route::get('/seller/signup', function () {
+    return view('frontend.seller.register'); 
 });
 
-Route::get('/second-medical-opinion-how-we-help', function () {
-    return view('frontend.second-medical-opinion-how-we-help'); 
-});
-
-Route::get('/virtual-doctor', function () {
-    return view('frontend.virtual-doctor'); 
-});
-
-Route::get('/primary-care-consultation', function () {
-    return view('frontend.primary-care-consultation'); 
-});
-
-Route::get('/mental-health', function () {
-    return view('frontend.mental-health'); 
-});
-
-Route::get('/dentist', function () {
-    return view('frontend.dentist'); 
+Route::get('/seller/dashboard', function () {
+    return view('frontend.seller.dashboard'); 
 });
  
-Route::get('/ways-we-help', function () {
-    return view('frontend.ways-we-help'); 
-});
-
-Route::get('/weight-management', function () {
-    return view('frontend.weight-management'); 
-});
-
-Route::get('/how-it-works-second-medical-opinion', function () {
-    return view('frontend.how-it-works-second-medical-opinion'); 
-});
-
-Route::get('/how-it-works-virtual-doctor', function () {
-    return view('frontend.how-it-works-virtual-doctor'); 
-});
-
-Route::get('/how-it-works-primary-care-consultation', function () {
-    return view('frontend.how-it-works-primary-care-consultation'); 
-});
-
-Route::get('/how-it-works-mental-health', function () {
-    return view('frontend.how-it-works-mental-health'); 
-});
-
-Route::get('/how-it-works-virtual-dentist', function () {
-    return view('frontend.how-it-works-virtual-dentist'); 
-});
-
-Route::get('/usa-doctor', function () {
-    return view('frontend.usa-doctor'); 
-});
-
-Route::get('/contact', function () {
-    return view('frontend.contact'); 
-});
-
-Route::get('/vlog', function () {
-    return view('frontend.vlog'); 
-});
-
-Route::get('/blog', function () {
-    return view('frontend.blog'); 
-});
-
-Route::get('/patient-reviews', function () {
-    return view('frontend.patient-reviews'); 
-});
-
-Route::get('/healthcare-news', function () {
-    return view('frontend.healthcare-news'); 
-}); 
 
 // admin routes 
 Route::middleware(['auth'])->group(function () {
 
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('admin.dashboard');
+    Route::get('/seller/dashboard', [SellerController::class, 'dashboard'])->name('seller.dashboard');
     Route::get('/users', [HomeController::class, 'userlist'])->name('admin.users.list');
     Route::post('/logout', [LoginController::class, 'logout'])->name('admin.logout');
 
@@ -160,20 +101,11 @@ Route::middleware(['auth'])->group(function () {
     Route::put('users/{id}', [AdminController::class, 'update'])->name('users.update');
     Route::delete('users/{id}', [AdminController::class, 'destroy'])->name('users.destroy'); 
     
-    
     // doctors create 
-    Route::get('doctors/create', [DoctorsController::class, 'create'])->name('doctors.create');
-    Route::post('doctors', [DoctorsController::class, 'store'])->name('doctors.store');
-    Route::get('doctors', [DoctorsController::class, 'index'])->name('doctors.index');
-
-    // posts
-    Route::get('posts', [PostController::class, 'index'])->name('posts.index');
-    Route::get('posts/create', [PostController::class, 'create'])->name('posts.create');
-    Route::post('posts', [PostController::class, 'store'])->name('posts.store');
-    Route::get('posts/{id}/edit', [PostController::class, 'edit'])->name('posts.edit');
-    Route::put('posts/{id}', [PostController::class, 'update'])->name('posts.update');
-    Route::delete('posts/{id}', [PostController::class, 'destroy'])->name('posts.destroy'); 
-
+    // Route::get('doctors/create', [DoctorsController::class, 'create'])->name('doctors.create');
+    // Route::post('doctors', [DoctorsController::class, 'store'])->name('doctors.store');
+    // Route::get('doctors', [DoctorsController::class, 'index'])->name('doctors.index');
+ 
      // categories
      Route::get('categories', [CategoryController::class, 'index'])->name('categories.index'); 
      Route::post('categories', [CategoryController::class, 'store'])->name('categories.store');

@@ -14,7 +14,7 @@ class User extends Authenticatable
 {
     use HasApiTokens, HasFactory, Notifiable,HasRoles;
     const ADMIN_ROLE = 1;
-    const DOC_ROLE = 2;
+    const SELLER_ROLE = 2;
     const PATIENT_ROLE = 3;
     /**
      * The attributes that are mass assignable.
@@ -47,22 +47,7 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
         'password' => 'hashed',
     ]; 
-
-    public function adminDetails()
-    {
-        return $this->hasOne(AdminDetails::class, 'id');
-    }
-
-    public function patientDetails()
-    {
-        return $this->hasOne(PatientDetails::class, 'id');
-    }
-
-    public function doctorDetails()
-    {
-        return $this->hasOne(DoctorDetails::class, 'id');
-    }
-
+ 
     // logs
     public function logs(): MorphMany
     {
